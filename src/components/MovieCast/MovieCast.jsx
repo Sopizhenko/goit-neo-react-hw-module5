@@ -1,21 +1,20 @@
 import css from "./MovieCast.module.css";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getMovieCredits } from "../../themoviedbApi";
 import actorImg from "../../assets/actor-placeholder.jpg";
 
 const MovieCast = () => {
-  const location = useLocation();
+  const {id: movieId} = useParams();
   const [cast, setCast] = useState([]);
-  console.log(cast);
 
   useEffect(() => {
     const fetchCast = async () => {
-      const movieCast = await getMovieCredits(location.state);
+      const movieCast = await getMovieCredits(movieId);
       setCast(movieCast || []);
     };
     fetchCast();
-  }, [location.state]);
+  }, [movieId]);
 
   return (
     <div>

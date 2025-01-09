@@ -1,10 +1,10 @@
 import css from "./MovieDetailsPage.module.css";
-import { useState, useEffect } from "react";
-import { Outlet, useParams } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { Outlet, useLocation, useParams , NavLink, useNavigate } from "react-router-dom";
 import { getMovieDetails } from "../../themoviedbApi";
-import { NavLink, useNavigate } from "react-router-dom";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 import clsx from "clsx";
+
 
 const buildLinkClass = ({ isActive }) => {
   return clsx(css.link, isActive && css.active);
@@ -13,6 +13,8 @@ const buildLinkClass = ({ isActive }) => {
 const MovieDetailsPage = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
+  const location = useLocation();
+  const previousLocationRef = useRef(location.state?.from ?? "/");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,7 +38,7 @@ const MovieDetailsPage = () => {
       <button
         className={css.gobackBtn}
         type="button"
-        onClick={() => navigate(-1)}
+        onClick={() => navigate(previousLocationRef.current)}
       >
         <IoArrowBackCircleOutline /> Go back
       </button>

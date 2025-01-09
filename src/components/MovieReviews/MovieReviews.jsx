@@ -1,19 +1,19 @@
 import css from "./MovieReviews.module.css";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getMovieReviews } from "../../themoviedbApi";
 
 const MovieReviews = () => {
-  const location = useLocation();
+  const {id: movieId} = useParams();
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     const fetchReviews = async () => {
-      const movieReviews = await getMovieReviews(location.state);
+      const movieReviews = await getMovieReviews(movieId);
       setReviews(movieReviews || []);
     };
     fetchReviews();
-  }, [location.state]);
+  }, [movieId]);
 
   return (
     <div>
